@@ -5,11 +5,11 @@ const scoreDisplay = document.getElementById('score');
 let score = 0;
 let isGameOver = false;
 
-// Инициализация начальных позиций космонавта
+// Ініціалізація початкових позицій космонавта
 astronaut.style.top = '50%';
 astronaut.style.left = '50%';
 
-// Движение космонавта
+// Рух космонавта
 document.addEventListener('keydown', (e) => {
   if (isGameOver) return;
 
@@ -17,32 +17,32 @@ document.addEventListener('keydown', (e) => {
   const gameAreaRect = gameArea.getBoundingClientRect();
 
   switch (e.key) {
-    case 'ArrowUp':
+    case 'ArrowUp': // Рух вгору
       if (rect.top > gameAreaRect.top) {
         astronaut.style.top = `${parseFloat(astronaut.style.top) - 5}%`;
       }
       break;
-    case 'ArrowDown':
+    case 'ArrowDown': // Рух вниз
       if (rect.bottom < gameAreaRect.bottom) {
         astronaut.style.top = `${parseFloat(astronaut.style.top) + 5}%`;
       }
       break;
-    case 'ArrowLeft':
+    case 'ArrowLeft': // Рух вліво
       if (rect.left > gameAreaRect.left) {
         astronaut.style.left = `${parseFloat(astronaut.style.left) - 5}%`;
       }
       break;
-    case 'ArrowRight':
+    case 'ArrowRight': // Рух вправо
       if (rect.right < gameAreaRect.right) {
         astronaut.style.left = `${parseFloat(astronaut.style.left) + 5}%`;
       }
       break;
   }
 
-  checkStarCollision(); // Проверяем столкновения с каждой звёздочкой
+  checkStarCollision(); // Перевіряємо зіткнення з кожною зірочкою
 });
 
-// Создание звезды
+// Створення зірки
 function createStar() {
   if (isGameOver) return;
 
@@ -57,7 +57,7 @@ function createStar() {
 
   gameArea.appendChild(star);
 
-  // Удаление звезды через 5 секунд, если игрок её не собрал
+  // Видалення зірки через 5 секунд, якщо гравець її не зібрав
   setTimeout(() => {
     if (star.parentNode) {
       star.remove();
@@ -65,23 +65,23 @@ function createStar() {
   }, 5000);
 }
 
-// Проверка столкновения с каждой звёздочкой
+// Перевірка зіткнення з кожною зірочкою
 function checkStarCollision() {
-  const stars = document.querySelectorAll('.star'); // Получаем все звёзды
+  const stars = document.querySelectorAll('.star'); // Отримуємо всі зірки
   const astronautRect = astronaut.getBoundingClientRect();
 
   stars.forEach((star) => {
     const starRect = star.getBoundingClientRect();
 
     if (checkCollision(astronautRect, starRect)) {
-      score++; // Увеличиваем очки
+      score++; // Збільшуємо очки
       scoreDisplay.textContent = score;
-      star.remove(); // Удаляем звезду
+      star.remove(); // Видаляємо зірку
     }
   });
 }
 
-// Создание инопланетянина
+// Створення прибульця
 function createAlien() {
   if (isGameOver) return;
 
@@ -96,7 +96,7 @@ function createAlien() {
 
   gameArea.appendChild(alien);
 
-  // Проверка столкновения с космонавтом
+  // Перевірка зіткнення з космонавтом
   const moveInterval = setInterval(() => {
     if (isGameOver) {
       clearInterval(moveInterval);
@@ -113,7 +113,7 @@ function createAlien() {
   }, 50);
 }
 
-// Проверка столкновений между двумя объектами
+// Перевірка зіткнень між двома об'єктами
 function checkCollision(rect1, rect2) {
   return !(
     rect1.top > rect2.bottom ||
@@ -123,21 +123,21 @@ function checkCollision(rect1, rect2) {
   );
 }
 
-// Запуск игры
+// Запуск гри
 function startGame() {
   isGameOver = false;
   score = 0;
   scoreDisplay.textContent = score;
 
-  setInterval(createStar, 1000); // Звёзды появляются каждую секунду
-  setInterval(createAlien, 3000); // Инопланетяне появляются каждые 3 секунды
+  setInterval(createStar, 1000); // Зірки з'являються кожну секунду
+  setInterval(createAlien, 3000); // Прибульці з'являються кожні 3 секунди
 }
 
-// Завершение игры
+// Завершення гри
 function endGame() {
   isGameOver = true;
-  alert(`Игра окончена! Вы набрали ${score} очков.`);
-  window.location.reload(); // Перезапуск игры
+  alert(`Гру завершено! Ви набрали ${score} очок.`);
+  window.location.reload(); // Перезапуск гри
 }
 
 startGame();
